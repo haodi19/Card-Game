@@ -43,13 +43,10 @@ public class Player {
     }
 
     //继续要牌
-    public void addCard(List<Card> cardList, Random random) {
-        if (cardList != null && cardList.size() > 0) {
-            Card newCard = cardList.remove(random.nextInt(cardList.size()));
-            cards.add(newCard);
-            points += newCard.getFigure();
-            cardNums++;
-        }
+    public void addCard(Card newCard) {
+        cards.add(newCard);
+        points += newCard.getFigure();
+        cardNums++;
     }
 
     public int calculateMaxPoints() {

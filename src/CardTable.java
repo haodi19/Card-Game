@@ -108,13 +108,16 @@ public class CardTable extends JComponent {
 
     }
 
-    //随机抽一张牌，仅限初始化玩家时使用
+    //随机抽一张牌
     private Card getACard() {
-        return cardList.remove(random.nextInt(cardList.size()));
+        if (cardList != null && cardList.size() > 0) {
+            return cardList.remove(random.nextInt(cardList.size()));
+        }
+        return null;
     }
 
-    private void addRestartButton(){
-        restart=new JButton();
+    private void addRestartButton() {
+        restart = new JButton();
         restart.setSize(120, 60);
         restart.setLocation(310, 410);
         restart.setText("再来一局");
@@ -122,7 +125,7 @@ public class CardTable extends JComponent {
         restart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                state=GAME_GO_ON;
+                state = GAME_GO_ON;
                 removeAll();
                 initTable();
                 repaint();
@@ -183,7 +186,7 @@ public class CardTable extends JComponent {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (state == GAME_GO_ON) {
-                    player.addCard(cardList, random);
+                    player.addCard(getACard());
                     repaint();
                 }
                 if (!player.isExploded()) {
@@ -191,7 +194,7 @@ public class CardTable extends JComponent {
                         new Thread(() -> {
                             try {
                                 Thread.sleep(200);
-                                computer.addCard(cardList, random);
+                                computer.addCard(getACard());
                                 repaint();
                             } catch (InterruptedException e1) { }
                         }).start();
@@ -214,7 +217,7 @@ public class CardTable extends JComponent {
                         while (computer.calculateMaxPoints() < 17) {
                             try {
                                 Thread.sleep(200);
-                                computer.addCard(cardList, random);
+                                computer.addCard(getACard());
                                 repaint();
                             } catch (InterruptedException e1) { }
                         }
